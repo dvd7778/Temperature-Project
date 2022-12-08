@@ -10,10 +10,10 @@
 #define ON 1
 #define OFF 0
 
-const char* ssid = "LIB-2091526";
-const char* password = "ckFcqkkB8mkz";
-//const char* ssid = "Dvd";
-//const char* password = "Mini7313";
+//const char* ssid = "LIB-2091526";
+//const char* password = "ckFcqkkB8mkz";
+const char* ssid = "Dvd";
+const char* password = "Mini7313";
 const char *MQTT_Broker = "44.212.191.85";
 const char *pubTopic = "Temperature";
 const char *subTopic = "config";
