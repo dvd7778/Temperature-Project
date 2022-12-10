@@ -4,7 +4,7 @@ Due: December 9, 2022
 
 # Project Participants:
 David A. Castillo Martínez (david.castillo1@upr.edu)
-Marielys ()
+Marielys Quinones Pérez (marielys.quinones@upr.edu)
 
 # Project Description:
 In this project an ESP32 microprocessor measures the voltage across a thermistor, and depending on the voltage read, the temperature corresponding to that voltage is sent to an AWS Linux server. The information in the server is then accessed through node-red and display on a dashboard UI through node-red. The project works by sending information through WiFI and MQTT. Anyone is able to ask Siri or Ok Google if the Air Conditioner is on in the room which the ESP32 is in, and Siri or Ok Google will reply with the Air Conditioner in said room is on or off (depending on the temperature).

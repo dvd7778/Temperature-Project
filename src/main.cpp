@@ -10,16 +10,16 @@
 #define ON 1
 #define OFF 0
 
-//const char* ssid = "LIB-2091526";
-//const char* password = "ckFcqkkB8mkz";
-const char* ssid = "Dvd";
-const char* password = "Mini7313";
+const char* ssid = "LIB-2091526";
+const char* password = "ckFcqkkB8mkz";
+//const char* ssid = "Dvd";
+//const char* password = "Mini7313";
 const char *MQTT_Broker = "44.212.191.85";
 const char *pubTopic = "Temperature";
 const char *subTopic = "config";
 const char *maxmintempTopic = "maxmintemp";
 const char *currentTopic = "current";
-const char *roomNumTopic = "roomNum";
+const char *roomNameTopic = "roomName";
 const int MQTT_Port = 1883;
 
 struct Temp {
@@ -31,17 +31,18 @@ struct Room {
   Temp maxTemp;
   Temp minTemp;
   Temp currentTemp;
-  int roomNum;
+  char roomName[20];
   bool b = true;
 };
 
 WiFiClient esp32Client;
 PubSubClient client(esp32Client);
 Room R;
+//char msg[80];
 
 void calibration(){
   char msg[80];
-  sprintf(msg, "%s", "What Room is this? (Enter a '#' before the Room Number)");
+  sprintf(msg, "%s", "Which Room is this?");
   client.publish(currentTopic, msg, false);
   client.subscribe(maxmintempTopic);
  /*
@@ -51,7 +52,7 @@ void calibration(){
  // client.subscribe(maxmintempTopic);
   printf("\n\nWhat Room is this?\n");
   while(Serial.available() == 0){}
-  R.roomNum = Serial.parseInt();
+  R.roomName = Serial.parseInt();
 
   delay(500);
   //Measures and saves the voltage and value of a low temp
@@ -88,8 +89,8 @@ void measure(void *pvParameter){
     //printf("%f\n", R.currentTemp.voltage);
     
     //sprintf(msg, "%s%d%s%f", "Room: ", 204, " Temp: ", R.currentTemp.voltage);
-    sprintf(msg, "%d", R.roomNum);
-    client.publish(roomNumTopic, msg, false);
+    //sprintf(msg, "%d", R.roomName);
+    client.publish(roomNameTopic, R.roomName, false);
 
     sprintf(msg, "%f", R.currentTemp.actualTemp);
     client.publish(pubTopic, msg, false);
@@ -122,15 +123,21 @@ void callback(char* topic, byte* payload, unsigned int length){
   Serial.println();
   */
  ///*
+/*
+  if(charPayload[0] == '#'){
+    charPayload++;
+    R.roomName = atoi(charPayload);
+    */
 
   char* charPayload = (char *)payload;
-  int temp = 0;
+  int temp = -100;
   if(isDigit(charPayload[0]))
     temp = atoi(charPayload);
 
-  if(charPayload[0] == '#'){
-    charPayload++;
-    R.roomNum = atoi(charPayload);
+  if(!isDigit(charPayload[0])){
+    for(int i=0; i< length; i++){
+      R.roomName[i] = (char)payload[i];
+    }
 
     char msg[80];
     sprintf(msg, "%s", "Apply a high or low temperature to the thermistor and input that value:");
@@ -146,7 +153,7 @@ void callback(char* topic, byte* payload, unsigned int length){
       client.publish(currentTopic, msg, false);
     } else {
       char msg[80];
-      sprintf(msg, "%s", "Only input a temperature to change the highest or lowest temperature");
+      sprintf(msg, "%s", "Only input a temperature to recalibrate the highest or lowest temperature");
       client.publish(currentTopic, msg, false);
     }
     
@@ -161,7 +168,7 @@ void callback(char* topic, byte* payload, unsigned int length){
       client.publish(currentTopic, msg, false);
     } else {
       char msg[80];
-      sprintf(msg, "%s", "Only input a temperature to change the highest or lowest temperature");
+      sprintf(msg, "%s", "Only input a temperature to recalibrate the highest or lowest temperature");
       client.publish(currentTopic, msg, false);
     }
   }
@@ -201,9 +208,6 @@ void setup() {
 
   //Calibrates the temperature measurement
   calibration();
-
-  //Creates a task to measure the temperature and publish the temp to the server
-  //xTaskCreate(&measure, "measure", 2048, NULL, 5, NULL);
 }
 
 void loop() {
