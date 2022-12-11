@@ -10,10 +10,10 @@
 #define ON 1
 #define OFF 0
 
-const char* ssid = "LIB-2091526";
-const char* password = "ckFcqkkB8mkz";
-//const char* ssid = "Dvd";
-//const char* password = "Mini7313";
+//const char* ssid = "LIB-2091526";
+//const char* password = "ckFcqkkB8mkz";
+const char* ssid = "Dvd";
+const char* password = "Mini7313";
 const char *MQTT_Broker = "44.212.191.85";
 const char *TemperatureTopic = "Temperature";
 const char *subTopic = "config";
@@ -41,12 +41,12 @@ struct Room {
 WiFiClient esp32Client;
 PubSubClient client(esp32Client);
 
-//created the Room object
+//Created the Room object
 Room R;
-//char msg[80];
+char msg[80];
 
 void measure(void *pvParameter){
-  char msg[50];
+  char output[50];
 
   while(1){
     //Measures the voltage in the GPIO 35
@@ -59,14 +59,13 @@ void measure(void *pvParameter){
     printf("\n%f, %f\n", R.maxTemp.actualTemp, R.maxTemp.voltage);
     printf("%f, %f\n", R.minTemp.actualTemp, R.minTemp.voltage);
     printf("%f, %f\n", R.currentTemp.actualTemp, R.currentTemp.voltage);
-    //sprintf(msg, "%d", R.roomName);
     
     //Publishes the room name with the roomName topic through MQTT
     client.publish(roomNameTopic, R.roomName, false);
 
     //Writes the current temperature in the msg array and publishes that temperature with the Temperature topic through MQTT
-    sprintf(msg, "%f", R.currentTemp.actualTemp);
-    client.publish(TemperatureTopic, msg, false);
+    sprintf(output, "%f", R.currentTemp.actualTemp);
+    client.publish(TemperatureTopic, output, false);
 
     //A delay to perform the task
     vTaskDelay(1000 / portTICK_PERIOD_MS);
@@ -99,7 +98,6 @@ void callback(char* topic, byte* payload, unsigned int length){
     }
 
     //Will prompt the user throug MQTT to input a high or low temperature next
-    char msg[80];
     sprintf(msg, "%s", "Apply a high or low temperature to the thermistor and input that value:");
     client.publish(currentTopic, msg, false);
   
@@ -110,13 +108,11 @@ void callback(char* topic, byte* payload, unsigned int length){
 
     //If the low temperature has not been inputted then it will prompt the user through MQTT to input a low temperature.
     if(R.minTemp.actualTemp == 0){
-      char msg[80];
       sprintf(msg, "%s", "Apply a low temperature to the thermistor and input that value:");
       client.publish(currentTopic, msg, false);
 
     //If the low temperature has already been inputted then it will prompt the user through MQTT to input a high or low value only to recalibrate
     } else {
-      char msg[80];
       sprintf(msg, "%s", "Only input a temperature to recalibrate the highest or lowest temperature");
       client.publish(currentTopic, msg, false);
     }
@@ -128,13 +124,11 @@ void callback(char* topic, byte* payload, unsigned int length){
 
     //If a high temperature has yet to be inputted then it will prompt the user through MQTT to input a high temperature
     if(R.maxTemp.actualTemp == 0){
-      char msg[80];
       sprintf(msg, "%s", "Apply a high temperature to the thermistor and input that value:");
       client.publish(currentTopic, msg, false);
 
     //If the high temperature has already been inputted then it will prompt the user through MQTT to only input a high or low temperature to recalibrate it
     } else {
-      char msg[80];
       sprintf(msg, "%s", "Only input a temperature to recalibrate the highest or lowest temperature");
       client.publish(currentTopic, msg, false);
     }
@@ -174,7 +168,6 @@ void setup() {
   initializeMQTT();
 
   //Initiates the calibration by prompting the user for the room name
-  char msg[80];
   sprintf(msg, "%s", "Which Room is this? To write a number, please enter a '#' at the begining.");
   client.publish(currentTopic, msg, false);
   client.subscribe(maxmintempTopic);
