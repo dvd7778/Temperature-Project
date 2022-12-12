@@ -22,7 +22,7 @@ This project utilizes an ESP32 microprocessor to measure the voltage across a th
     &emsp;&emsp;• [Link for instructions to install:](https://nodered.org/)
 
 # Circuit Used:
-![Image](TempProjectCircuit.jpeg)
+![Image](images/TempProjectCircuit.jpeg)
 
 # Copyright:
 Aditional trademarks of products used in this project: <br />
