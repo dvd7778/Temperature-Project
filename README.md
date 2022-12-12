@@ -11,20 +11,23 @@ This project utilizes an ESP32 microprocessor to measure the voltage across a th
 
 # Materials:
 • ESP32 Freenove Basic Starter Kit <br />
-    &emsp;• Link to buy the kit: https://www.amazon.com/ESP32-WROVER-Contained-Compatible-Bluetooth-Tutorials/dp/B09BC1N9LL/ref=sr_1_1?crid=1FYAX49OTDYJY&keywords=esp32+basic+starter+kit&qid=1670518934&sprefix=esp32+basic+starter+kit%2Caps%2C122&sr=8-1 <br />
+    &emsp;&emsp;• [Link to buy the kit](https://www.amazon.com/ESP32-WROVER-Contained-Compatible-Bluetooth-Tutorials/dp/B09BC1N9LL/ref=sr_1_1?crid=1FYAX49OTDYJY&keywords=esp32+basic+starter+kit&qid=1670518934&sprefix=esp32+basic+starter+kit%2Caps%2C122&sr=8-1) <br />
 • Thermistor <br />
-    &emsp;• Found in the starter kit above <br />
+    &emsp;&emsp;• Found in the starter kit above <br />
 • Resistor <br />
-    &emsp;• Found in the starter kit above <br />
+    &emsp;&emsp;• Found in the starter kit above <br />
 • AWS Lightsail Linux Cloud Server <br />
-    &emsp;• Link to setup a Lightsail server: https://aws.amazon.com/lightsail/ <br />
+    &emsp;&emsp;• [Link to setup a Lightsail server](https://aws.amazon.com/lightsail/) <br />
 • Node-red (installed in the Linux Server) <br />
-    &emsp;• Link for instructions to install: https://nodered.org/
+    &emsp;&emsp;• [Link for instructions to install:](https://nodered.org/)
+
+# Circuit Used:
+![Image](TempProjectCircuit.jpeg)
 
 # Copyright:
-Aditional trademarks of products used in this project: <br /> <br />
+Aditional trademarks of products used in this project: <br />
 
-• Node.js® - Trademark for Node.js - https://nodejs.org/en/ <br />
-• Node-RED® - Trademark for Node-RED - https://nodered.org/ <br />
-• ESPRESSIF® - Trademark for Espressif Systems (shanghai) Co. Ltd. - https://www.espressif.com/ <br />
-• Arduino® - Trademark for Arduino - https://www.arduino.cc/ 
+• Node.js® - Trademark for [Node.js](https://nodejs.org/en/) <br />
+• Node-RED® - Trademark for [Node-RED](https://nodered.org/) <br />
+• ESPRESSIF® - Trademark for [Espressif Systems (shanghai) Co. Ltd.](https://www.espressif.com/) <br />
+• Arduino® - Trademark for [Arduino](https://www.arduino.cc/) 
