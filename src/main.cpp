@@ -56,15 +56,15 @@ void measure(void *pvParameter){
     R.currentTemp.actualTemp = R.minTemp.actualTemp + (R.currentTemp.voltage - R.minTemp.voltage) * ((R.maxTemp.actualTemp - R.minTemp.actualTemp) / (R.maxTemp.voltage - R.minTemp.voltage));
 
     //FOR DEBUGGING PURPOSES (prints in the serial terminal the high, low and current saved voltage and temperature)
-    printf("\n%f, %f\n", R.maxTemp.actualTemp, R.maxTemp.voltage);
-    printf("%f, %f\n", R.minTemp.actualTemp, R.minTemp.voltage);
-    printf("%f, %f\n", R.currentTemp.actualTemp, R.currentTemp.voltage);
+    printf("\n%.2f, %f\n", R.maxTemp.actualTemp, R.maxTemp.voltage);
+    printf("%.2f, %f\n", R.minTemp.actualTemp, R.minTemp.voltage);
+    printf("%.2f, %f\n", R.currentTemp.actualTemp, R.currentTemp.voltage);
     
     //Publishes the room name with the roomName topic through MQTT
     client.publish(roomNameTopic, R.roomName, false);
 
     //Writes the current temperature in the msg array and publishes that temperature with the Temperature topic through MQTT
-    sprintf(output, "%f", R.currentTemp.actualTemp);
+    sprintf(output, "%.2f", R.currentTemp.actualTemp);
     client.publish(TemperatureTopic, output, false);
 
     //A delay to perform the task
